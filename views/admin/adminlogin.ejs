@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1">
+		<title>Giriş</title>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        <link rel="stylesheet" href="/css/admin.css">
+	</head>
+    <body>
+        <% if (message.length > 0) { %>
+			<div class="alert-fail">
+				<%= message %>
+			</div>
+		<% } %>
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				const alertBox = document.querySelector('.alert-fail');
+				if (alertBox) {
+					setTimeout(() => {
+						alertBox.classList.add('hide');
+						setTimeout(() => {
+							alertBox.remove();
+						}, 1000);
+					}, 3000);
+				}
+			});
+		</script>
+
+        <div class="login">
+            <h1>Admin Girişi</h1>
+            <form action="/admin/login" method="post">
+                <div class="input-container">
+                    <label for="username">
+                        <i class="fas fa-user"></i>
+                    </label>
+                    <input type="text" name="username" placeholder="Kullanıcı Adı" id="username" required>
+                </div>
+                <div class="input-container">
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                    </label>
+                    <input type="password" name="password" placeholder="Parola" id="password" required>
+                </div>
+                    <input type="submit" value="Giriş Yap">
+            </form>
+        </div>
+    </body>
+<html>

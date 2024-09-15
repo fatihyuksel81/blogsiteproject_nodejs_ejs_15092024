@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gönderi Oluştur</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <link rel="stylesheet" href="/css/post.css">
+    <style>
+        body{
+            background-color: rgb(181, 181, 181);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="post-article">
+            <h1>Yeni Bir Gönderi Oluştur</h1>
+            <form action="/admin/edit-post/<%= post.id %>" method="POST">
+                    <div class="input-container">
+                    <input type="text" id="title" name="title" value="<%= post.title %>" placeholder="Gönderi Başlığı" required>
+                </div>
+                <div class="custom-select" style="width:200px;">
+                    <select name="category">
+                      <option value="0">Kategori Seçin:</option>
+                      <option value="technology">Teknoloji</option>
+                      <option value="general-culture">Genel Kültür</option>
+                      <option value="literature">Edebiyat</option>
+                      <option value="sociology">Sosyoloji</option>
+                    </select name="category">
+                </div>
+                <textarea id="summernote" name="content"><%= post.content %></textarea>
+                <script>
+                    $(document).ready(function() {
+                        $('#summernote').summernote({
+                            placeholder: 'İçerik Giriniz',
+                            tabsize: 2,
+                            height: 200,
+                            toolbar: [
+                                ['style', ['style']],
+                                ['font', ['bold', 'underline', 'clear']],
+                                ['color', ['color']],
+                                ['para', ['ul', 'ol', 'paragraph']],
+                                ['table', ['table']],
+                                ['view', ['fullscreen', 'codeview', 'help']]
+                            ],
+                        });
+                    });
+                </script>          
+                <button type="submit">Gönderiyi Güncelle</button>
+            </form>
+        </div>
+    </div>
+    <script src="/js/post.js" defer></script>
+</body>
+</html>
+

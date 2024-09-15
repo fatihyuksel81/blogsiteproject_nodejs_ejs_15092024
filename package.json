@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "@dogstudio/highway": "^2.2.1",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "child_process": "^1.0.2",
+    "connect-flash": "^0.1.1",
+    "date-fns": "^3.6.0",
+    "dompurify": "^3.1.6",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "gsap": "^3.12.5",
+    "jsdom": "^24.1.1",
+    "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1",
+    "node-cron": "^3.0.3",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  }
+}

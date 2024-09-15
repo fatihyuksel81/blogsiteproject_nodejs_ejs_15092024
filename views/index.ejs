@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Site</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Anasayfa</a></li>
+            <% if (userId) { %>
+                <div class="dropdown">
+                    <a class="dropbtn"><i class="fa fa-fw fa-user"></i> <%= loggedInUser %></a>
+                    <div class="dropdown-content">
+                        <a href="/post">Gönderi Yayımla</a>
+                        <a href="/my-posts">Gönderilerim</a>
+                        <a href="/my-comments">Yorumlarım</a>
+                        <a href="/logout">Çıkış Yap</a>
+                    </div>
+                </div>
+            <% } else { %>
+                <li><a href="/register">Kayıt Ol</a></li>
+                <li><a href="/login">Giriş Yap</a></li>
+            <% } %>
+            <li><div class="hamburger-menu" onclick="toggleMenu()">&#9776;</div></li>
+            <div class="dropdown-2">
+                <div class = "dropdown-2-content" id="sideMenu1">
+                    <a href="/category/technology">Teknoloji</a>
+                    <a href="/category/general-culture">Genel Kültür</a>
+                    <a href="/category/literature">Edebiyat</a>
+                    <a href="/category/sociology">Sosyoloji</a>                
+                </div>
+            </div>
+        </ul>
+    </nav>
+    <% if (message.length > 0) { %>
+        <div class="alert-success">
+            <%= message %>
+        </div>
+    <% } %>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const alertBox = document.querySelector('.alert-success');
+            if (alertBox) {
+                setTimeout(() => {
+                    alertBox.classList.add('hide');
+                    setTimeout(() => {
+                        alertBox.remove();
+                    }, 1000);
+                }, 3000);
+            }
+        });
+        function toggleMenu() {
+            var menu = document.getElementById("sideMenu1");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+
+
+
+    </script>
+    <div class="sidecontainer">
+        <h3>Kategoriler</h3>
+        <ul id="sideMenu">
+            <li><a href="/category/technology">Teknoloji</a></li>
+            <li><a href="/category/general-culture">Genel Kültür</a></li>
+            <li><a href="/category/literature">Edebiyat</a></li>
+            <li><a href="/category/sociology">Sosyoloji</a></li>
+        </ul>
+    </div>
+    <div class="container">
+    <ul class="posts">
+        <% posts.forEach(post => { %>
+            <li class="post" onclick="window.location.href='/posts/<%= post.id %>'">
+                <h2><%= post.title %></h2>
+                <% if (post.file_path) { %>
+                    <img src="<%= post.file_path %>" alt="<%= post.title %>" style="max-width: 100%; height: auto;">
+                <% } %>
+                <p><%- post.short_content %></p>
+                <small><%= post.created_at_formatted %></small>
+                <small> Yazar:<%= post.username%> </small>
+            </li>
+        <% }); %>
+    </ul>
+    </div>
+    <script src="/js/fade.js" defer></script>
+</body>
+</html>

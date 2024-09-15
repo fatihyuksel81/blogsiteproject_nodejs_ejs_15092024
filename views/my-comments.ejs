@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Site</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script>
+        function deleteComment(commentId) {
+            if (confirm("Bu yorumu silmek istediğinizden emin misiniz?")) {
+                fetch(`/comments/${commentId}/delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: commentId }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const alertBox = document.querySelector('.alert-success');
+                        alertBox.innerText = 'Yorum başarıyla silindi.';
+                        alertBox.classList.remove('hide');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+
+        function editComment(commentId) {
+    const commentElement = document.querySelector(`.comment-${commentId}`);
+    const contentElement = commentElement.querySelector('.comment-content');
+    const editButton = commentElement.querySelector('.edit');
+    const saveButton = commentElement.querySelector('.save');
+    const cancelButton = commentElement.querySelector('.cancel');
+
+    if (editButton.style.display !== 'none') {
+        contentElement.innerHTML = `<textarea id="edit-content-${commentId}" rows="4">${contentElement.innerText}</textarea>`;
+        editButton.style.display = 'none';
+        saveButton.style.display = 'inline';
+        cancelButton.style.display = 'inline';
+    } else {
+        const newContent = document.getElementById(`edit-content-${commentId}`).value;
+        fetch(`/comments/${commentId}/edit`, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: commentId, content: newContent }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                contentElement.innerHTML = newContent;
+                editButton.style.display = 'inline';
+                saveButton.style.display = 'none';
+                cancelButton.style.display = 'none';
+                const alertBox = document.querySelector('.alert-success');
+                alertBox.innerText = 'Yorum başarıyla güncellendi.';
+                alertBox.classList.remove('hide');
+                setTimeout(() => {
+                    alertBox.classList.add('hide');
+                }, 3000);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+}
+
+        function cancelEdit(commentId) {
+            const commentElement = document.querySelector(`.comment-${commentId}`);
+            const contentElement = commentElement.querySelector('.comment-content');
+            const editButton = commentElement.querySelector('.edit');
+            const saveButton = commentElement.querySelector('.save');
+            const cancelButton = commentElement.querySelector('.cancel');
+
+            contentElement.innerHTML = contentElement.innerText;
+            editButton.style.display = 'inline';
+            saveButton.style.display = 'none';
+            cancelButton.style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Anasayfa</a></li>
+            <% if (userId) { %>
+                <div class="dropdown">
+                    <a class="dropbtn"><i class="fa fa-fw fa-user"></i> <%= loggedInUser %></a>
+                    <div class="dropdown-content">
+                        <a href="/post">Gönderi Yayımla</a>
+                        <a href="/my-posts">Gönderilerim</a>
+                        <a href="/my-comments">Yorumlarım</a>
+                        <a href="/logout">Çıkış Yap</a>
+                    </div>
+                </div>
+            <% } else { %>
+                <li><a href="/register">Kayıt Ol</a></li>
+                <li><a href="/login">Giriş Yap</a></li>
+            <% } %>
+        </ul>
+    </nav>
+    <div class="alert-success hide">
+        <%= message %>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const alertBox = document.querySelector('.alert-success');
+            if (alertBox) {
+                setTimeout(() => {
+                    alertBox.classList.add('hide');
+                    setTimeout(() => {
+                        alertBox.remove();
+                    }, 1000);
+                }, 3000);
+            }
+        });
+    </script>
+
+    <div class="container">
+    <ul class="my-comments">
+        <% comments.forEach(comment => { %>
+            <li class="my-comment comment-<%= comment.id %>">
+                <h2>Makale: <%= comment.post_title %></h2>
+                <br>
+                <p class="comment-content"><%= comment.content %></p>
+                <small><%= comment.created_at_formatted %></small>
+                <small> Yazar: <%= loggedInUser %> </small>
+                <div class="post-buttons">
+                    <button class="delete" onclick="deleteComment('<%= comment.id %>')">Sil <i class="fa fa-trash"></i></button>
+                    <button class="edit" onclick="editComment('<%= comment.id %>')">Düzenle <i class="fas fa-edit"></i></button>
+                    <button class="save" style="display:none" onclick="editComment('<%= comment.id %>')">Kaydet <i class="fas fa-save"></i></button>
+                    <button class="cancel" style="display:none" onclick="cancelEdit('<%= comment.id %>')">İptal <i class="fas fa-times"></i></button>
+                </div>
+            </li>
+        <% }); %>
+    </ul>
+    </div>
+    <script src="/js/fade.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+*{
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+    font-size: 16px;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
+}
+h1{
+    text-align: center;
+}
+.container {
+    width: 80%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 2em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.post-article {
+    margin: 0 auto;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#summernote {
+    margin-bottom: 1em;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+button {
+    margin-top: 1rem;
+    display:flex;
+    padding: 0.5em 1em;
+    border: none;
+    background-color: #00b3c6;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2868c7;
+}  
+.custom-select {
+  position: relative;
+  font-family: Arial;
+  margin-bottom: 1rem;
+}
+
+.custom-select select {
+  display: none;
+}
+
+.select-selected {
+  background-color: #00b3c6;
+}
+
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+.select-items div,.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+.select-items {
+  position: absolute;
+  background-color: #00b3c6;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Site</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script>
+    function deletePost(postId) {
+    if (confirm("Bu gönderiyi silmek istediğinizden emin misiniz?")) {
+        fetch(`/posts/${postId}/delete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: postId }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const alertBox = document.querySelector('.alert-success');
+                        alertBox.innerText = 'Gönderi başarıyla silindi.';
+                        alertBox.classList.remove('hide');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+    }
+    function editPost(postId) {
+        window.location.href = `/edit-post/${postId}`;
+    }
+    </script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Anasayfa</a></li>
+            <% if (userId) { %>
+                <div class="dropdown">
+                    <a class="dropbtn"><i class="fa fa-fw fa-user"></i> <%= loggedInUser %></a>
+                    <div class="dropdown-content">
+                        <a href="/post">Gönderi Yayımla</a>
+                        <a href="/my-posts">Gönderilerim</a>
+                        <a href="/my-comments">Yorumlarım</a>
+                        <a href="/logout">Çıkış Yap</a>
+                    </div>
+                </div>
+            <% } else { %>
+                <li><a href="/register">Kayıt Ol</a></li>
+                <li><a href="/login">Giriş Yap</a></li>
+            <% } %>
+        </ul>
+    </nav>
+    <div class="alert-success hide">
+        <%= message %>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const alertBox = document.querySelector('.alert-success');
+            if (alertBox) {
+                setTimeout(() => {
+                    alertBox.classList.add('hide');
+                    setTimeout(() => {
+                        alertBox.remove();
+                    }, 1000);
+                }, 3000);
+            }
+        });
+    </script>
+
+    <div class="container">
+    <ul class="posts">
+        <% posts.forEach(post => { %>
+            <li class="post">
+                <h2><%= post.title %></h2>
+                <p><%- post.short_content %></p>
+                <small><%= post.created_at_formatted %></small>
+                <small> Yazar:<%= loggedInUser %> </small>
+                <div class="post-buttons">
+                    <button class="delete" onclick="deletePost('<%= post.id %>')">Sil <i class="fa fa-trash"></i></button>
+                    <button class="edit" onclick="editPost('<%= post.id %>')">Düzenle <i class="fas fa-edit"></i></button>
+                </div>
+            </li>
+        <% }); %>
+    </ul>
+    </div>
+    <script src="/js/fade.js" defer></script>
+</body>
+</html>

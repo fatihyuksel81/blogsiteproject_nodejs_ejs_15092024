@@ -1,0 +1,98 @@
+body {
+    display: flex;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: rgb(181, 181, 181);
+}
+.admin-bar {
+    background-color: lightblue;
+    padding: 1rem 2rem;
+    gap: 1rem;
+    border: 2px solid #000;
+    display: flex;
+    border-radius: 8px;
+}
+.admin-bar a{
+    border: 2px solid #000;
+    padding: 1rem;
+    text-decoration: none;
+    color: black;
+    border-radius: 4px;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.admin-bar a:hover {
+    background-color: #000;
+    color: white;
+}
+.homepage-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #f0f0f0;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: black;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+}
+
+.homepage-btn a {
+    text-decoration: none;
+    color: black;
+}
+
+.homepage-btn:hover {
+    background-color: #e0e0e0;
+}
+.alert-success {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #32a136; 
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 1s ease-out, top 1s ease-out;
+}
+.alert-success.hide {
+    opacity: 0;
+    top: 40px;
+}
+.alert-fail {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #d10808; 
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 1s ease-out, top 1s ease-out;
+}
+
+
+.alert-fail.hide {
+    opacity: 0;
+    top: 40px;
+}
+.login form {
+    text-align: center;
+}
+.login form input[type="submit"] {
+    align-items: center;
+    margin-top: 5px;
+}

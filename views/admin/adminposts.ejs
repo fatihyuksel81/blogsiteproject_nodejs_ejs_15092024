@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1">
+		<title>Giriş</title>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        <link rel="stylesheet" href="/css/admin.css">
+        <style>
+            table, th, td {
+              border-bottom:1px solid black;
+            }
+            tr:hover {background-color: red; color: white; }
+        </style>
+            <script>
+                function deletePost(postId) {
+                if (confirm("Bu gönderiyi silmek istediğinizden emin misiniz?")) {
+                    fetch(`/admin/posts/${postId}/delete`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ id: postId }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const alertBox = document.querySelector('.alert-success');
+                                    alertBox.innerText = 'Gönderi başarıyla silindi.';
+                                    alertBox.classList.remove('hide');
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 1000);
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                }
+                }
+                function editPost(postId) {
+                    window.location.href = `/admin/edit-post/${postId}`;
+                }
+            </script>
+	</head>
+    <body>
+        <% if (message.length > 0) { %>
+			<div class="alert-fail">
+				<%= message %>
+			</div>
+		<% } %>
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				const alertBox = document.querySelector('.alert-fail');
+				if (alertBox) {
+					setTimeout(() => {
+						alertBox.classList.add('hide');
+						setTimeout(() => {
+							alertBox.remove();
+						}, 1000);
+					}, 3000);
+				}
+			});
+		</script>
+        <div class="homepage-btn"><a href="/admin/">Anasayfa</a></div>
+        <br>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Başlık</th>
+                <th>Oluşturma Tarihi</th>
+                <th>Oluşturan Kullanıcı</th>
+                <th>Sil</th>
+                <th>Düzenle</th>
+            </tr>
+            <%posts.forEach(post => { %>
+                <tr>
+                    <td><%= post.id %></td>
+                    <td><%= post.title %></td>
+                    <td><%= post.created_at_formatted %></td>
+                    <td><%= post.username %></td>
+                    <td><button onclick="deletePost('<%= post.id %>')">Sil</button></td>
+                    <td><button onclick="editPost('<%= post.id %>')">Düzenle</button></td>
+                </tr>
+            <% }); %>
+        </table>
+    </body>
+<html>
