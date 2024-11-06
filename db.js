@@ -7,7 +7,7 @@ const cron = require('node-cron');
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'F1a2t3i4h5',
+    password: 'password',
     database: 'blogdb'
 });
 
